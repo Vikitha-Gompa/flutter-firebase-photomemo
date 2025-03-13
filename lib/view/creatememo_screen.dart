@@ -1,7 +1,9 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:lesson6/controller/auth_controller.dart';
 import 'package:lesson6/controller/creatememo_controller.dart';
 import 'package:lesson6/model/creatememo_model.dart';
+import 'package:lesson6/model/photomemo.dart';
 
 class CreateMemoScreen extends StatefulWidget {
   const CreateMemoScreen({super.key});
@@ -39,6 +41,7 @@ class CreateMemoState extends State<CreateMemoScreen> {
             key: formKey,
             child: Column(
               children: [
+                photoPreview(),
                 TextFormField(
                   decoration: const InputDecoration(
                     hintText: 'Title',
@@ -72,6 +75,52 @@ class CreateMemoState extends State<CreateMemoScreen> {
           ),
         ),
       ),
+    );
+  }
+
+  Widget photoPreview() {
+    return Stack(
+      children: [
+        SizedBox(
+            height: MediaQuery.of(context).size.height * 0.25,
+            child: model.photo == null
+                ? const FittedBox(child: Icon(Icons.photo_library))
+                : (kIsWeb)
+                    ? Image.memory(model.photo)
+                    : Image.file(model.photo)),
+        Positioned(
+          right: 0.0,
+          bottom: 0.0,
+          child: Container(
+            color: Colors.blue[100],
+            child: PopupMenuButton(
+              onSelected: null,
+              itemBuilder: (BuildContext context) {
+                if (kIsWeb) {
+                  return [
+                    PopupMenuItem(
+                      value: CameraOrGallery,
+                      child: Text(
+                        CameraOrGallery.gallery.name.toLowerCase(),
+                      ),
+                    ),
+                  ];
+                } else {
+                  return [
+                    for (var source in CameraOrGallery.values)
+                      PopupMenuItem(
+                        value: source,
+                        child: Text(
+                          source.name.toUpperCase(),
+                        ),
+                      ),
+                  ];
+                }
+              },
+            ),
+          ),
+        ),
+      ],
     );
   }
 }
