@@ -17,4 +17,24 @@ class CreateMemoModel {
       photoURL: '',
     );
   }
+
+  void onSavedTitle(String? value) {
+    if (value != null) {
+      tempMemo.title = value;
+    }
+  }
+
+  void onSavedMemo(String? value) {
+    if (value != null) {
+      tempMemo.memo = value;
+    }
+  }
+
+  void onSavedSharedWith(String? value) {
+    if (value != null) {
+      List<String> emailList =
+          value.trim().split(RegExp('(,|;| )+')).map((e) => e.trim()).toList();
+      tempMemo.sharedWith = emailList;
+    }
+  }
 }

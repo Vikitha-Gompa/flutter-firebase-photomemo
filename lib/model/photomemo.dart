@@ -25,4 +25,26 @@ class PhotoMemo {
   }) {
     this.sharedWith = sharedWith == null ? [] : [...sharedWith];
   }
+
+  static String? validateTitle(String? value) {
+    return value == null || value.trim().length < 2 ? 'title too short' : null;
+  }
+
+  static String? validateMemo(String? value) {
+    return value == null || value.trim().length < 7 ? 'Memo too short' : null;
+  }
+
+  static String? validateSharedWith(String? value) {
+    if (value == null || value.trim().isEmpty) return null;
+
+    List<String> emailList =
+        value.trim().split(RegExp('(,|;| )+')).map((e) => e.trim()).toList();
+
+    for (String e in emailList) {
+      if (!(e.contains('@') && e.contains('.'))) {
+        return 'Invalid email address; comma, semicolon, space separated list ';
+      }
+    }
+    return null;
+  }
 }

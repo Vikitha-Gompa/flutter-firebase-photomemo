@@ -28,11 +28,19 @@ class CreateMemoState extends State<CreateMemoScreen> {
     con = CreateMemoController(this);
   }
 
+  void callSetState(fn) => setState(fn);
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Create New PhotoMemo'),
+        actions: [
+          IconButton(
+            onPressed: con.save,
+            icon: const Icon(Icons.check),
+          ),
+        ],
       ),
       body: SingleChildScrollView(
         child: Padding(
@@ -47,8 +55,8 @@ class CreateMemoState extends State<CreateMemoScreen> {
                     hintText: 'Title',
                   ),
                   autocorrect: true,
-                  validator: null,
-                  onSaved: null,
+                  validator: PhotoMemo.validateTitle,
+                  onSaved: model.onSavedTitle,
                 ),
                 TextFormField(
                   decoration: const InputDecoration(
@@ -57,8 +65,8 @@ class CreateMemoState extends State<CreateMemoScreen> {
                   autocorrect: true,
                   keyboardType: TextInputType.multiline,
                   maxLines: 6,
-                  validator: null,
-                  onSaved: null,
+                  validator: PhotoMemo.validateMemo,
+                  onSaved: model.onSavedMemo,
                 ),
                 TextFormField(
                   decoration: const InputDecoration(
@@ -67,8 +75,8 @@ class CreateMemoState extends State<CreateMemoScreen> {
                   autocorrect: false,
                   keyboardType: TextInputType.multiline,
                   maxLines: 2,
-                  validator: null,
-                  onSaved: null,
+                  validator: PhotoMemo.validateSharedWith,
+                  onSaved: model.onSavedSharedWith,
                 ),
               ],
             ),
@@ -94,14 +102,14 @@ class CreateMemoState extends State<CreateMemoScreen> {
           child: Container(
             color: Colors.blue[100],
             child: PopupMenuButton(
-              onSelected: null,
+              onSelected: con.getPhoto,
               itemBuilder: (BuildContext context) {
                 if (kIsWeb) {
                   return [
                     PopupMenuItem(
-                      value: CameraOrGallery,
+                      value: CameraOrGallery.gallery,
                       child: Text(
-                        CameraOrGallery.gallery.name.toLowerCase(),
+                        CameraOrGallery.gallery.name.toUpperCase(),
                       ),
                     ),
                   ];
