@@ -33,6 +33,10 @@ class HomeState extends State<HomeScreen> {
           canPop: false, // disable system back button
           child: Text(model.user.email!)),
       drawer: drawerView(context),
+      floatingActionButton: FloatingActionButton(
+        onPressed: con.gotoCreateMemo,
+        child: const Icon(Icons.add),
+      ),
     );
   }
 
