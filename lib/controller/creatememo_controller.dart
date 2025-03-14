@@ -2,6 +2,7 @@
 
 import 'package:flutter/cupertino.dart';
 import 'package:lesson6/controller/get_photo.dart';
+import 'package:lesson6/controller/storage_controller.dart';
 import 'package:lesson6/model/photomemo.dart';
 import 'package:lesson6/view/creatememo_screen.dart';
 import 'package:lesson6/view/show_snackbar.dart';
@@ -39,6 +40,33 @@ class CreateMemoController {
         seconds: 10,
       );
       return;
+    }
+
+    try {
+      var (filename, downloadURL) = await uploadPhotoFile(
+        photo: state.model.photo,
+        uid: state.model.user.uid,
+        photoMimeType: state.model.photoMimeType,
+        listener: (int progress) {
+          // print('======== Uploading: $progress %');
+          state.callSetState(() {
+            if (progress == 100) {
+              state.model.progressMessage = null;
+            } else {
+              state.model.progressMessage = 'Uploading: $progress %';
+            }
+          });
+        },
+      );
+      print('========= filename: $filename');
+      print('======== downloadURL:  $downloadURL');
+    } catch (e) {
+      print('**************** Save photomemo error: $e');
+      showSnackbar(
+        context: state.context,
+        message: 'Save photomemo error: $e',
+        seconds: 10,
+      );
     }
   }
 }

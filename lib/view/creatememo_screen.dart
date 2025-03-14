@@ -128,6 +128,17 @@ class CreateMemoState extends State<CreateMemoScreen> {
             ),
           ),
         ),
+        if (model.progressMessage != null)
+          Positioned(
+            bottom: 0.0,
+            left: 0.0,
+            child: Container(
+                color: Colors.blue[100],
+                child: Text(
+                  model.progressMessage!,
+                  style: Theme.of(context).textTheme.titleMedium,
+                )),
+          )
       ],
     );
   }
