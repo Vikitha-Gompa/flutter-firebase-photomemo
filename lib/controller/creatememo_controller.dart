@@ -1,6 +1,7 @@
 // ignore_for_file: avoid_print
 
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:lesson6/controller/firestor_controller.dart';
 import 'package:lesson6/controller/get_photo.dart';
 import 'package:lesson6/controller/storage_controller.dart';
 import 'package:lesson6/model/photomemo.dart';
@@ -21,10 +22,10 @@ class CreateMemoController {
         state.model.photoMimeType = mimeType;
       });
     } catch (e) {
-      print('==== failed to get photo: $e');
+      print('========= failed to get photo: $e');
       showSnackbar(
         context: state.context,
-        message: 'Failed to get photo',
+        message: 'Failed to get photo: $e',
       );
     }
   }
@@ -32,7 +33,7 @@ class CreateMemoController {
   Future<void> save() async {
     FormState? currentState = state.formKey.currentState;
     if (currentState == null) return;
-    if (!currentState.validate()) return;
+    if (!(currentState.validate())) return;
     if (state.model.photo == null) {
       showSnackbar(
         context: state.context,
@@ -42,13 +43,14 @@ class CreateMemoController {
       return;
     }
 
+    currentState.save();
+
     try {
       var (filename, downloadURL) = await uploadPhotoFile(
         photo: state.model.photo,
         uid: state.model.user.uid,
         photoMimeType: state.model.photoMimeType,
         listener: (int progress) {
-          // print('======== Uploading: $progress %');
           state.callSetState(() {
             if (progress == 100) {
               state.model.progressMessage = null;
@@ -58,15 +60,27 @@ class CreateMemoController {
           });
         },
       );
-      print('========= filename: $filename');
-      print('======== downloadURL:  $downloadURL');
+      state.callSetState(
+          () => state.model.progressMessage = 'Saving PhotoMemo ...');
+      state.model.tempMemo.photoFilename = filename;
+      state.model.tempMemo.photoURL = downloadURL;
+      state.model.tempMemo.createdBy = state.model.user.email!;
+      state.model.tempMemo.timestamp = DateTime.now();
+      String docId = await addPhotoMemo(photoMemo: state.model.tempMemo);
+      state.model.tempMemo.docId = docId;
+      if (state.mounted) {
+        Navigator.of(state.context).pop(state.model.tempMemo);
+      }
     } catch (e) {
-      print('**************** Save photomemo error: $e');
-      showSnackbar(
-        context: state.context,
-        message: 'Save photomemo error: $e',
-        seconds: 10,
-      );
+      state.callSetState(() => state.model.progressMessage = null);
+      print('************** Save photomemo error: $e');
+      if (state.mounted) {
+        showSnackbar(
+          context: state.context,
+          message: 'Save photomemo error: $e',
+          seconds: 10,
+        );
+      }
     }
   }
 }
