@@ -9,3 +9,20 @@ Future<String> addPhotoMemo({required PhotoMemo photoMemo}) async {
       .add(photoMemo.toFirestoreDoc());
   return ref.id;
 }
+
+Future<List<PhotoMemo>> getPhotoMemoList({required String email}) async {
+  QuerySnapshot querySnapshot = await FirebaseFirestore.instance
+      .collection(photoMemoCollection)
+      .where(DocKeyPhotoMemo.createdBy.name, isEqualTo: email)
+      .orderBy(DocKeyPhotoMemo.timestamp.name, descending: true)
+      .get();
+  var result = <PhotoMemo>[];
+  for (var doc in querySnapshot.docs) {
+    if (doc.data() != null) {
+      var document = doc.data() as Map<String, dynamic>;
+      var p = PhotoMemo.fromFirestoreDoc(doc: document, docId: doc.id);
+      result.add(p);
+    }
+  }
+  return result;
+}

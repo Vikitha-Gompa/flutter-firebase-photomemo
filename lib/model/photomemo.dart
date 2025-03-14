@@ -36,6 +36,25 @@ class PhotoMemo {
     this.sharedWith = sharedWith == null ? [] : [...sharedWith];
   }
 
+  factory PhotoMemo.fromFirestoreDoc({
+    required Map<String, dynamic> doc,
+    required String docId,
+  }) {
+    return PhotoMemo(
+      docId: docId,
+      createdBy: doc[DocKeyPhotoMemo.createdBy.name] ?? '',
+      title: doc[DocKeyPhotoMemo.title.name] ?? '',
+      memo: doc[DocKeyPhotoMemo.memo.name] ?? '',
+      photoFilename: doc[DocKeyPhotoMemo.photoFilename.name] ?? '',
+      photoURL: doc[DocKeyPhotoMemo.photoURL.name] ?? '',
+      sharedWith: doc[DocKeyPhotoMemo.sharedWith.name] ?? [],
+      timestamp: doc[DocKeyPhotoMemo.timestamp.name] != null
+          ? DateTime.fromMillisecondsSinceEpoch(
+              doc[DocKeyPhotoMemo.timestamp.name].millisecondsSinceEpoch)
+          : null,
+    );
+  }
+
   Map<String, dynamic> toFirestoreDoc() {
     return {
       DocKeyPhotoMemo.title.name: title,
