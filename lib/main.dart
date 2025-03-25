@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:lesson6/model/photomemo.dart';
 import 'package:lesson6/view/creataccount_screen.dart';
 import 'package:lesson6/view/creatememo_screen.dart';
+import 'package:lesson6/view/detailedview_screen.dart';
+import 'package:lesson6/view/error_screen.dart';
 import 'package:lesson6/view/startdispatcher.dart';
 import 'firebase_options.dart';
 
@@ -28,6 +31,16 @@ class FirebaseTemplateApp extends StatelessWidget {
         StartDispatcher.routeName: (context) => const StartDispatcher(),
         CreateAccountScreen.routeName: (context) => const CreateAccountScreen(),
         CreateMemoScreen.routeName: (context) => const CreateMemoScreen(),
+        DetailViewScreen.routeName: (context) {
+          Object? args = ModalRoute.of(context)?.settings.arguments;
+          if (args != null && args is PhotoMemo) {
+            return DetailViewScreen(
+              photoMemo: args,
+            );
+          } else {
+            return const ErrorScreen('args is not PhotoMemo');
+          }
+        }
       },
     );
   }

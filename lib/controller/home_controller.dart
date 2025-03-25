@@ -5,6 +5,7 @@ import 'package:lesson6/controller/auth_controller.dart';
 import 'package:lesson6/controller/firestor_controller.dart';
 import 'package:lesson6/model/photomemo.dart';
 import 'package:lesson6/view/creatememo_screen.dart';
+import 'package:lesson6/view/detailedview_screen.dart';
 import 'package:lesson6/view/home_screen.dart';
 import 'package:lesson6/view/show_snackbar.dart';
 
@@ -46,5 +47,13 @@ class HomeController {
     } finally {
       state.callSetState(() {});
     }
+  }
+
+  void onTap(int index) {
+    Navigator.pushNamed(
+      state.context,
+      DetailViewScreen.routeName,
+      arguments: state.model.photoMemoList![index],
+    );
   }
 }

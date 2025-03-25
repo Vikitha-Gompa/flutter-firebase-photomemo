@@ -83,6 +83,7 @@ class HomeState extends State<HomeScreen> {
                   Text('Timestamp: ${photoMemo.timestamp}'),
                 ],
               ),
+              onTap: () => con.onTap(index),
             );
           });
     }
