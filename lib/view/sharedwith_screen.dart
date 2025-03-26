@@ -96,3 +96,41 @@ class SharedWithState extends State<SharedWithScreen> {
     );
   }
 }
+
+// import 'package:flutter/material.dart';
+// import 'package:lesson6/controller/auth_controller.dart';
+// import 'package:lesson6/controller/sharedwith_controller.dart';
+// import 'package:lesson6/model/sharedwith_model.dart';
+
+// class SharedWithScreen extends StatefulWidget {
+//   const SharedWithScreen({super.key});
+
+//   static const routeName = '/sharedWithScreen';
+
+//   @override
+//   State<StatefulWidget> createState() {
+//     return SharedWithState();
+//   }
+// }
+
+// class SharedWithState extends State<SharedWithScreen> {
+//   late SharedWithModel model;
+//   late SharedWithController con;
+
+//   @override
+//   void initState() {
+//     super.initState();
+//     model = SharedWithModel(user: currentUser!);
+//     con = SharedWithController(this);
+//   }
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return Scaffold(
+//       appBar: AppBar(
+//         title: const Text('Shared With'),
+//       ),
+//       body: const Text('Shared with'),
+//     );
+//   }
+// }

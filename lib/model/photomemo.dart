@@ -50,6 +50,7 @@ class PhotoMemo {
     return copy;
   }
 
+  // obj = p; obj.copyFrom(p)
   void copyFrom(PhotoMemo p) {
     docId = p.docId;
     createdBy = p.createdBy;

@@ -5,6 +5,7 @@ import 'package:lesson6/view/creataccount_screen.dart';
 import 'package:lesson6/view/creatememo_screen.dart';
 import 'package:lesson6/view/detailview_screen.dart';
 import 'package:lesson6/view/error_screen.dart';
+import 'package:lesson6/view/sharedwith_screen.dart';
 import 'package:lesson6/view/startdispatcher.dart';
 import 'firebase_options.dart';
 
@@ -31,6 +32,7 @@ class FirebaseTemplateApp extends StatelessWidget {
         StartDispatcher.routeName: (context) => const StartDispatcher(),
         CreateAccountScreen.routeName: (context) => const CreateAccountScreen(),
         CreateMemoScreen.routeName: (context) => const CreateMemoScreen(),
+        SharedWithScreen.routeName: (context) => const SharedWithScreen(),
         DetailViewScreen.routeName: (context) {
           Object? args = ModalRoute.of(context)?.settings.arguments;
           if (args != null && args is PhotoMemo) {

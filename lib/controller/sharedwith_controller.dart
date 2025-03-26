@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_print
+
 import 'package:lesson6/controller/firestor_controller.dart';
 import 'package:lesson6/view/sharedwith_screen.dart';
 
