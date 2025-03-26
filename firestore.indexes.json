@@ -1,0 +1,12 @@
+{
+  "indexes": [
+    {
+      "collectionId": "photomemo_collection",
+      "fields": [
+        { "fieldPath": "createdBy", "order": "ASCENDING" },
+        { "fieldPath": "timestamp", "order": "DESCENDING" }
+      ]
+    }
+  ],
+  "fieldOverrides": []
+}

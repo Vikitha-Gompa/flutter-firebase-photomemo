@@ -32,8 +32,7 @@ class CreateMemoModel {
 
   void onSavedSharedWith(String? value) {
     if (value != null) {
-      List<String> emailList =
-          value.trim().split(RegExp('(,|;| )+')).map((e) => e.trim()).toList();
+      List<String> emailList = value.trim().split(RegExp(r'[,;\s]+'));
       tempMemo.sharedWith = emailList;
     }
   }

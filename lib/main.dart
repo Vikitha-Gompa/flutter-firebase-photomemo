@@ -3,7 +3,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:lesson6/model/photomemo.dart';
 import 'package:lesson6/view/creataccount_screen.dart';
 import 'package:lesson6/view/creatememo_screen.dart';
-import 'package:lesson6/view/detailedview_screen.dart';
+import 'package:lesson6/view/detailview_screen.dart';
 import 'package:lesson6/view/error_screen.dart';
 import 'package:lesson6/view/startdispatcher.dart';
 import 'firebase_options.dart';

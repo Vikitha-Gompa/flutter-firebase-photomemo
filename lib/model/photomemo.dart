@@ -36,6 +36,32 @@ class PhotoMemo {
     this.sharedWith = sharedWith == null ? [] : [...sharedWith];
   }
 
+  PhotoMemo clone() {
+    var copy = PhotoMemo(
+      docId: docId,
+      createdBy: createdBy,
+      title: title,
+      memo: memo,
+      photoFilename: photoFilename,
+      photoURL: photoURL,
+      timestamp: timestamp,
+    );
+    copy.sharedWith = [...sharedWith];
+    return copy;
+  }
+
+  void copyFrom(PhotoMemo p) {
+    docId = p.docId;
+    createdBy = p.createdBy;
+    title = p.title;
+    memo = p.memo;
+    photoURL = p.photoURL;
+    photoFilename = p.photoFilename;
+    timestamp = p.timestamp;
+    sharedWith.clear();
+    sharedWith.addAll(p.sharedWith);
+  }
+
   factory PhotoMemo.fromFirestoreDoc({
     required Map<String, dynamic> doc,
     required String docId,
@@ -78,14 +104,17 @@ class PhotoMemo {
   static String? validateSharedWith(String? value) {
     if (value == null || value.trim().isEmpty) return null;
 
-    List<String> emailList =
-        value.trim().split(RegExp('(,|;| )+')).map((e) => e.trim()).toList();
+    List<String> emailList = value.trim().split(RegExp(r'[,;\s]+'));
 
+    String r = '';
     for (String e in emailList) {
-      if (!(e.contains('@') && e.contains('.'))) {
-        return 'Invalid email address; comma, semicolon, space separated list ';
-      }
+      if (RegExp(r'\d+@uco.com').hasMatch(e)) continue;
+      r += '$e ';
     }
-    return null;
+    if (r.isEmpty) {
+      return null;
+    } else {
+      return 'Unacceptable email(s): $r';
+    }
   }
 }

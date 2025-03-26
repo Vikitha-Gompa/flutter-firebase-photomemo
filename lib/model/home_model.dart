@@ -6,4 +6,7 @@ class HomeModel {
   List<PhotoMemo>? photoMemoList;
 
   HomeModel(this.user);
+
+  int? deleteIndex;
+  bool deleteInProgress = false;
 }
